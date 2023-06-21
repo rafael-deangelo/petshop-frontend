@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.css' // No terminal npm install bootstrap / Aqui fazer o import
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
