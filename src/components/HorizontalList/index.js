@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import Card from "../Card";
 
 export default function HorizontalList({ nome, lista }) {
+  const navigate = useNavigate();
   if (lista.length === 0) {
     return null;
   }
@@ -12,6 +14,7 @@ export default function HorizontalList({ nome, lista }) {
           <li key={li.id} className="list-group-item">
             <Card
               id={li.id}
+              onClick={() => navigate(`/pedido/${li.id}`)}
               imagem={li.imagem}
               nome={li.nome}
               preco={li.preco}

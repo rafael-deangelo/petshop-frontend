@@ -16,10 +16,11 @@ function Card({ imagem, nome, preco, id }) {
           {preco}
         </p>
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            console.log("Detalhes");
-          }}
+          // onClick={(e) => {
+          //   e.stopPropagation();
+          //   console.log("Detalhes");
+          // }}
+          onClick={() => navigate(`/detalhes/${id}`)}
           className="btn btn-primary"
         >
           Detalhes

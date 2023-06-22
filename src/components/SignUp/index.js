@@ -10,17 +10,19 @@ import {
   MDBCard,
   MDBCardBody,
   MDBInput,
-  MDBBtnGroup,
+  // MDBBtnGroup,
 } from "mdb-react-ui-kit";
 
 function SignUp() {
   const [nome, setNome] = useState("");
-  const [sobrenome, setSobrenome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [endereco, setEndereco] = useState("");
+  const [cpf, setCpf] = useState("");
   const [nomeCartao, setNomeCartao] = useState("");
   const [numeroCartao, setNumeroCartao] = useState("");
-  const [cvv, setCvv] = useState("");
+  const [cvc, setCvc] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [subscriptionType, setSubscriptionType] = useState("");
 
   function handleSubscriptionType(type) {
@@ -32,29 +34,35 @@ function SignUp() {
     console.log(
       "Nome:",
       nome,
-      "Sobrenome:",
-      sobrenome,
       "Telefone:",
       telefone,
       "Endereço:",
       endereco,
+      "CPF:",
+      cpf,
       "Nome do Cartão:",
       nomeCartao,
       "Número do Cartão:",
       numeroCartao,
       "CVV:",
-      cvv,
+      cvc,
+      "E-mail:",
+      email,
+      "Senha:",
+      senha,
       "Tipo de assinatura selecionado:",
       subscriptionType
     );
     alert("Suas informações foram salvas no console!");
     setNome("");
-    setSobrenome("");
     setTelefone("");
     setEndereco("");
+    setCpf("");
     setNomeCartao("");
     setNumeroCartao("");
-    setCvv("");
+    setCvc("");
+    setEmail("");
+    setSenha("");
     setSubscriptionType("");
   };
 
@@ -62,7 +70,7 @@ function SignUp() {
     <MDBContainer fluid className="p-4">
       <MDBRow>
         <MDBCol
-          md="6"
+          md="5"
           className="text-center text-md-start d-flex flex-column justify-content-center"
         >
           <h1 className="my-5 display-3 fw-bold ls-tight px-3">
@@ -83,7 +91,7 @@ function SignUp() {
           </p>
         </MDBCol>
 
-        <MDBCol md="6">
+        <MDBCol md="7">
           <MDBCard className="my-5">
             <MDBCardBody className="p-5">
               <MDBRow>
@@ -94,15 +102,6 @@ function SignUp() {
                     type="text"
                     value={nome}
                     onChange={(e) => setNome(e.target.value)}
-                  />
-                </MDBCol>
-                <MDBCol col="6">
-                  <MDBInput
-                    wrapperClass="mb-4"
-                    placeholder="Sobrenome"
-                    type="text"
-                    value={sobrenome}
-                    onChange={(e) => setSobrenome(e.target.value)}
                   />
                 </MDBCol>
               </MDBRow>
@@ -118,6 +117,13 @@ function SignUp() {
                 placeholder="Endereço"
                 type="text"
                 value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
+              />
+                            <MDBInput
+                wrapperClass="mb-4"
+                placeholder="CPF"
+                type="text"
+                value={cpf}
                 onChange={(e) => setEndereco(e.target.value)}
               />
               <MDBInput
@@ -143,40 +149,32 @@ function SignUp() {
                     type="password"
                     maxLength={3}
                     style={{ maxWidth: "120px" }}
-                    value={cvv}
-                    onChange={(e) => setCvv(e.target.value)}
+                    value={cvc}
+                    onChange={(e) => setCvc(e.target.value)}
                   />
+                                <MDBInput
+                wrapperClass="mb-4"
+                placeholder="E-mail"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+                            <MDBInput
+                wrapperClass="mb-4"
+                placeholder="Senha"
+                type="text"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+              />
                 </MDBCol>
                 <MDBCol
                   md="6"
                   className="justify-content-center align-items-center text-center"
                 >
-                  <MDBBtnGroup>
-                    <MDBBtn
-                      outline
-                      color="primary"
-                      className={`subscription-button ${
-                        subscriptionType === "free" ? "active" : "inactive"
-                      }`}
-                      onClick={() => handleSubscriptionType("free")}
-                    >
-                      Free
-                    </MDBBtn>
-                    <MDBBtn
-                      outline
-                      color="primary"
-                      className={`subscription-button ${
-                        subscriptionType === "plus" ? "active" : "inactive"
-                      }`}
-                      onClick={() => handleSubscriptionType("plus")}
-                    >
-                      Plus
-                    </MDBBtn>
-                  </MDBBtnGroup>
                 </MDBCol>
               </MDBRow>
               <MDBBtn className="w-100 mb-4 " size="md" onClick={handleSubmit}>
-                Assinar
+                Cadastrar | Atualizar
               </MDBBtn>
               <div className="text-center"></div>
             </MDBCardBody>
