@@ -33,20 +33,24 @@ export default function Checkout() {
     carrinho.forEach((p) => {
       pedido.produtos.push({ produto: p.codigo, quantidade: p.quantidade });
     });
-    console.log('pedido',pedido);
-    api.post("/pedido/criarPedido", pedido,
-    { headers: {
-        'Authorization': `Bearer ${cliente.token}`,
-        'Content-Type': 'application/json'
-    }})
-    .then((response) => {
-        if(response.data){
-            console.log(response.data);
-            alert(`Compra efetuada com sucesso para o cliente codigo: ${response.data.codigo}`);
-            setCarrinho([]);
-            navigate('/');
+    console.log("pedido", pedido);
+    api
+      .post("/pedido/criarPedido", pedido, {
+        headers: {
+          Authorization: `Bearer ${cliente.token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        if (response.data) {
+          console.log(response.data);
+          alert(
+            `Compra efetuada com sucesso para o cliente codigo: ${response.data.codigo}`
+          );
+          setCarrinho([]);
+          navigate("/");
         }
-    });
+      });
   }
 
   return (

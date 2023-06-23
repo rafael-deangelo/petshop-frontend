@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState, useContext } from "react";
 import { CarrinhoContext } from "../App";
+import { ClienteContext } from "../App";
 import api from "../services";
 import Title from "../components/Title";
 import Loading from "../components/Loading";
@@ -8,6 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Detalhes() {
   const [carrinho, setCarrinho] = useContext(CarrinhoContext);
+  const [cliente, setCliente] = useContext(ClienteContext);
   const navigate = useNavigate();
   const { produtoId } = useParams();
   const { state } = useLocation();
@@ -33,12 +35,16 @@ export default function Detalhes() {
   }, [produtoId]);
 
   const adicionarCarrinho = () => {
-          var pr = produto;
-          pr.quantidade = quantidade;
-          setCarrinho([...carrinho, pr]);
-          console.log(carrinho);
-          navigate("/pedido");
-  }
+    var pr = produto;
+    pr.quantidade = quantidade;
+    setCarrinho([...carrinho, pr]);
+    console.log(carrinho);
+    if (cliente.token) {
+      navigate("/pedido");
+    }else{
+      navigate("/login");
+    }
+  };
 
   return (
     <div>
@@ -81,15 +87,16 @@ export default function Detalhes() {
             <p className="lead">{produto.preco}</p>
             <p className="lead">{produto.notatotal}</p>
             <div className="form-outline col-3 mb-3">
-                <label className="form-label">Quantidade</label>
-                <input type="number" className="form-control" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
-              </div>
+              <label className="form-label">Quantidade</label>
+              <input
+                type="number"
+                className="form-control"
+                value={quantidade}
+                onChange={(e) => setQuantidade(e.target.value)}
+              />
+            </div>
             <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-              
-              <button
-                onClick={adicionarCarrinho}
-                className="btn btn-primary"
-              >
+              <button onClick={adicionarCarrinho} className="btn btn-primary">
                 Adicionar ao Carrinho
               </button>
             </div>

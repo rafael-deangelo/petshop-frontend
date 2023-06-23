@@ -35,7 +35,6 @@ export default function Home() {
         console.log(fullCat);
         setCategorias(fullCat);
         setFilterCategorias(fullCat);
-        calculaprodutos();
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -46,13 +45,16 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const calculaprodutos = () => {
-    let total = 0;
-    filterCategorias.forEach((c) => {
-      total += c.produtos.length;
-    });
-    setTotalProdutos(total);
-  };
+  useEffect(() => {
+    const calculaProdutos = async () => {
+      let total = 0;
+      filterCategorias.forEach((c) => {
+        total += c.produtos.length;
+      });
+      setTotalProdutos(total);
+    }
+    calculaProdutos();
+  },[filterCategorias])
 
   const handleFilterSearchChange = (searchValue) => {
     if (searchValue) {
@@ -68,7 +70,6 @@ export default function Home() {
     } else {
       setFilterCategorias(categorias);
     }
-    calculaprodutos();
   };
 
   const handleFilterSelectChange = (selectValue) => {
@@ -167,7 +168,7 @@ export default function Home() {
         filterCategorias.map((cat) => (
           <HorizontalList key={cat._id} lista={cat.produtos} nome={cat.nome} />
         ))}
-      {totalprodutos <= 0 && (
+      {totalprodutos === 0 && (
         <div style={{ textAlign: "center" }}>
           <p className="lead">Não foram encontrados resultados</p>
         </div>

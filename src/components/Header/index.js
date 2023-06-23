@@ -1,10 +1,11 @@
 import React, { useEffect, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ClienteContext } from "../../App";
 
 export default function Header() {
   const location = useLocation();
   const [cliente, setCliente] = useContext(ClienteContext);
+  const navigate = useNavigate();
 
   const showButtons = location.pathname !== "/cliente";
 
@@ -20,6 +21,7 @@ export default function Header() {
   const logout = () => {
     localStorage.setItem("cliente-data", null);
     setCliente({});
+    navigate("/");
   };
 
   return (
@@ -53,12 +55,12 @@ export default function Header() {
               Carrinho
             </Link>
           )}
-          {(showButtons && (cliente.token === undefined))  && (
+          {showButtons && cliente.token === undefined && (
             <Link to="/cliente" className="btn btn-primary">
               Cadastrar
             </Link>
           )}
-          {(showButtons && (cliente.token !== undefined))  && (
+          {showButtons && cliente.token !== undefined && (
             <Link to="/cliente" state={cliente} className="btn btn-primary">
               Meu Perfil
             </Link>

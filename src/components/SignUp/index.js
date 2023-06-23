@@ -6,8 +6,6 @@ import { useLocation } from "react-router-dom";
 import api from "../../services/index";
 
 import {
-  MDBBtn,
-  MDBContainer,
   MDBRow,
   MDBCol,
   MDBCard,
@@ -28,29 +26,32 @@ function SignUp() {
   const [senha, setSenha] = useState("");
   const [imagem, setImagem] = useState(null);
   const hiddenFileInput = React.useRef(null);
-  const { state } = useLocation();
+  const location = useLocation();
   const [cliente, setCliente] = useContext(ClienteContext);
   const [alterar, setAlterar] = useState(false);
 
   useEffect(() => {
     const load = async () => {
-      if (state) {
-        setNome(state.nomeCompleto);
-        setTelefone(state.telefone);
-        setEndereco(state.endereco);
-        setCpf(state.cpf);
-        setNomeCartao(state.dadosCartao.nomeCartao);
-        setNumeroCartao(state.dadosCartao.numeroCartao);
-        setCvc(state.dadosCartao.cvc);
-        setEmail(state.email);
-        setAlterar(true);
+      if (location) {
+        let estado = location.state;
+        if (estado != null) {
+          setNome(estado.nomeCompleto);
+          setTelefone(estado.telefone);
+          setEndereco(estado.endereco);
+          setCpf(estado.cpf);
+          setNomeCartao(estado.dadosCartao.nomeCartao);
+          setNumeroCartao(estado.dadosCartao.numeroCartao);
+          setCvc(estado.dadosCartao.cvc);
+          setEmail(estado.email);
+          setAlterar(true);
+        }
       } else {
         setCliente(null);
         setAlterar(false);
       }
     };
     load();
-  }, [state]);
+  }, [location]);
 
   const handleClick = (event) => {
     hiddenFileInput.current.click();
@@ -126,8 +127,8 @@ function SignUp() {
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="text-center justify-content-center col-md-5 mt-5">
+      <div className="row justify-content-center">
+        <div className="text-center justify-content-center col-md-5 mt-5" hidden={alterar}>
           <h1 className="my-5 display-3 fw-bold ls-tight px-3">
             Cadastre-se
             <br />

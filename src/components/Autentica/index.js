@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/index";
 import  {ClienteContext } from "../../App";
 import "./autentica.css";
@@ -92,9 +92,9 @@ export default function Autentica() {
                   <div>
                     <p className="mb-0">
                       Não tem uma conta?{" "}
-                      <a href="#!" className="text-white-50 fw-bold">
+                      <Link to="/cliente" className="text-white-50 fw-bold">
                         Cadastre-se
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </div>
