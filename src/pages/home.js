@@ -17,13 +17,19 @@ export default function Home() {
         setLoading(true);
         const resProd = await api.get("/produto/produtos");
         const resCat = await api.get("/categoria/categorias");
+        if (resProd.data) {
+          resProd.data.forEach((p) => {
+            let nomecategoria = resCat.data.find((x) => x._id === p.categoria).nome;
+            if (nomecategoria) p.nomecategoria = nomecategoria;
+          });
+        }
         const fullCat = resCat.data.map((cat) => {
           return {
             ...cat,
             produtos: resProd.data.filter((prod) => prod.categoria === cat._id),
           };
         });
-        console.log(fullCat)
+        console.log(fullCat);
         setCategorias(fullCat);
         setFilterCategorias(fullCat);
         setLoading(false);
@@ -146,7 +152,7 @@ export default function Home() {
       {error && <p className="lead">{error}</p>}
       {filterCategorias.length > 0 ? (
         filterCategorias.map((cat) => (
-          <HorizontalList key={cat.id} lista={cat.produtos} nome={cat.nome} />
+          <HorizontalList key={cat._id} lista={cat.produtos} nome={cat.nome} />
         ))
       ) : (
         <div style={{ textAlign: "center" }}>

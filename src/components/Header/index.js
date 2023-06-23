@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ClienteContext } from "../../App";
 
 export default function Header() {
   const location = useLocation();
+  const [cliente, setCliente] = useContext(ClienteContext);
 
   const showButtons = location.pathname !== "/cadastro";
+
+  useEffect(() => {
+    const verificaUserLogado = () => {
+      let clocal = JSON.parse(localStorage.getItem("cliente-data"));
+      console.log("clocal:", clocal);
+      if (clocal) setCliente(clocal);
+    };
+    verificaUserLogado();
+  }, [cliente.token]);
+
+  const logout = () => {
+    localStorage.setItem("cliente-data", null);
+    setCliente({});
+  };
 
   return (
     <header className="p-3 text-bg-dark">
@@ -23,7 +39,11 @@ export default function Header() {
         </ul>
 
         <div className="col-md-3 text-end">
-          {showButtons && (
+          {cliente.token ? (
+            <button className="btn btn-outline-light me-2" onClick={logout}>
+              Logout
+            </button>
+          ) : (
             <Link to="/login" className="btn btn-outline-light me-2">
               Login
             </Link>

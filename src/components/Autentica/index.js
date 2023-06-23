@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/index";
+import  {ClienteContext } from "../../App";
 import "./autentica.css";
 
 export default function Autentica() {
+  const [ cliente, setCliente ] = useContext(ClienteContext);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
@@ -18,11 +20,13 @@ export default function Autentica() {
     };
 
     api
-      .post("/auth", bodyParam)
+      .post("/login/login", bodyParam)
       .then((response) => {
         console.log(response.data);
-        alert(" Token gerado para o usuario " + response.data.nome);
-        localStorage.setItem("token", response.data.token);
+        alert(" Token gerado para o usuario " + response.data.nomeCompleto);
+        localStorage.setItem("cliente-data", JSON.stringify(response.data));
+        setCliente(response.data);
+
         navigate("/");
       })
       .catch((err) => {
@@ -41,9 +45,7 @@ export default function Autentica() {
         <div className="container py-2 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-              <div
-                className="card bg-dark text-white"
-              >
+              <div className="card bg-dark text-white">
                 <div className="card-body p-5 text-center">
                   <div className="mb-md-5 mt-md-4 pb-5">
                     <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
@@ -58,6 +60,7 @@ export default function Autentica() {
                           id="typeEmailX"
                           placeholder="e-mail"
                           className="form-control form-control-lg"
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
 
@@ -67,22 +70,23 @@ export default function Autentica() {
                           id="typePasswordX"
                           placeholder="Senha"
                           className="form-control form-control-lg"
+                          onChange={(e) => setSenha(e.target.value)}
                         />
                       </div>
+
+                      <p className="small mb-4 pb-lg-2">
+                        <a className="text-white-50" href="#!">
+                          Esqueceu sua senha?
+                        </a>
+                      </p>
+
+                      <button
+                        className="btn btn-outline-light btn-lg px-5"
+                        type="submit"
+                      >
+                        Login
+                      </button>
                     </form>
-
-                    <p className="small mb-4 pb-lg-2">
-                      <a className="text-white-50" href="#!">
-                        Esqueceu sua senha?
-                      </a>
-                    </p>
-
-                    <button
-                      className="btn btn-outline-light btn-lg px-5"
-                      type="submit"
-                    >
-                      Login
-                    </button>
                   </div>
 
                   <div>

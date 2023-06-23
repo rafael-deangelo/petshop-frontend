@@ -3,48 +3,48 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 export default function Footer() {
   return (
     <div>
-      <footer class="bg-dark text-center text-white">
-        <div class="container p-4 pb-0">
-          <section class="mb-4">
+      <footer className="bg-dark text-center text-white">
+        <div className="container p-4 pb-0">
+          <section className="mb-4">
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-facebook-f"></i>
+              <i className="fab fa-facebook-f"></i>
             </a>
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-twitter"></i>
+              <i className="fab fa-twitter"></i>
             </a>
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-google"></i>
+              <i className="fab fa-google"></i>
             </a>
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-instagram"></i>
+              <i className="fab fa-instagram"></i>
             </a>
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-linkedin-in"></i>
+              <i className="fab fa-linkedin-in"></i>
             </a>
           </section>
         </div>
 
-        <div class="text-center p-3">
+        <div className="text-center p-3">
           © 2023 Copyright - Todos os direitos reservados
         </div>
       </footer>

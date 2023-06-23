@@ -11,12 +11,14 @@ export default function HorizontalList({ nome, lista }) {
       <h3 className="text-center">{nome}</h3>
       <ul className="list-group list-group-horizontal position-relative overflow-auto w-100">
         {lista.map((li) => (
-          <li key={li.id} className="list-group-item">
+          <li key={li._id} className="list-group-item">
             <Card
-              id={li.id}
-              onClick={() => navigate(`/pedido/${li.id}`)}
+              key={li._id}
+              id={li.codigo}
+              onClick={() => navigate(`detalhes`)}
               imagem={li.imagem}
               nome={li.nome}
+              nomecategoria={li.nomecategoria}
               preco={li.preco}
             />
           </li>

@@ -141,6 +141,11 @@ function SignUp() {
                 value={numeroCartao}
                 onChange={(e) => setNumeroCartao(e.target.value)}
               />
+              <input
+                          type="file"
+                          placeholder="selecione sua foto do perfil"
+                          className="form-control form-control mb-4"
+                        />
               <MDBRow>
                 <MDBCol md="6" className="d-flex align-items-center">
                   <MDBInput
@@ -166,6 +171,7 @@ function SignUp() {
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
               />
+              
                 </MDBCol>
                 <MDBCol
                   md="6"

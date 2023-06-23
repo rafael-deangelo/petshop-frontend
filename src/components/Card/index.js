@@ -1,30 +1,34 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useEffect} from "react";
+import { Link } from "react-router-dom";
 
-function Card({ imagem, nome, preco, id }) {
-  const navigate = useNavigate();
+function Card({ imagem, nome, preco, id, nomecategoria }) {
   return (
-    <div
-      onClick={() => navigate(`/detalhes/${id}`)}
-      className="card m-1 p-0 "
-      style={{ width: "18rem" }}
-    >
-      <img className="card-img-top" src={imagem || "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg"} alt="Card poster cap" />
+    <div className="card m-1 p-0 " style={{ width: "18rem" }}>
+      {imagem ? (
+        <img
+          src={`data:image/png;base64,${btoa(new Uint8Array(imagem.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))}`}
+          alt=""
+        />
+      ) : (
+        <img
+          className="card-img-top"
+          src={
+            imagem ||
+            "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg"
+          }
+          alt="Card poster cap"
+        />
+      )}
       <div className="card-body d-flex flex-column justify-content-center align-items-center">
         <h6 className="card-title text-center">{nome}</h6>
-        <p className="card-text text-center">
-          {preco}
-        </p>
-        <button
-          // onClick={(e) => {
-          //   e.stopPropagation();
-          //   console.log("Detalhes");
-          // }}
-          onClick={() => navigate(`/detalhes/${id}`)}
+        <p className="card-text text-center">{preco}</p>
+        <Link
+          to={`/detalhes/${id}`}
+          state={{ categoria: nomecategoria }}
           className="btn btn-primary"
         >
           Detalhes
-        </button>
+        </Link>
       </div>
     </div>
   );
