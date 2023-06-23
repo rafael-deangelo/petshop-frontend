@@ -23,6 +23,11 @@ export default function Checkout() {
   function handleSubmit(event) {
     event.preventDefault();
 
+    if(carrinho.length === 0){
+      alert(`Carrinho sem nenhum produto, adicione para confirmar.`);
+      return;
+    }
+
     var pedido = {
       preco: dados.total,
       status: "pedido realizado",
