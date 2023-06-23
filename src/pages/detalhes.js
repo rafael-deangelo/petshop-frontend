@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { CarrinhoContext } from "../App";
 import api from "../services";
 import Title from "../components/Title";
 import Loading from "../components/Loading";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Detalhes() {
+  const [carrinho, setCarrinho] = useContext(CarrinhoContext);
   const navigate = useNavigate();
   const { produtoId } = useParams();
   const { state } = useLocation();
@@ -29,6 +31,14 @@ export default function Detalhes() {
     };
     fetchProdutooById();
   }, [produtoId]);
+
+  const adicionarCarrinho = () => {
+          var pr = produto;
+          pr.quantidade = quantidade;
+          setCarrinho([...carrinho, pr]);
+          console.log(carrinho);
+          navigate("/pedido");
+  }
 
   return (
     <div>
@@ -77,7 +87,7 @@ export default function Detalhes() {
             <div className="d-grid gap-2 d-md-flex justify-content-md-start">
               
               <button
-                onClick={() => navigate(`/pedido`)}
+                onClick={adicionarCarrinho}
                 className="btn btn-primary"
               >
                 Adicionar ao Carrinho

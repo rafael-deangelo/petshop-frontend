@@ -10,6 +10,7 @@ export default function Home() {
   const [filterCategorias, setFilterCategorias] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [totalprodutos, setTotalProdutos] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +20,9 @@ export default function Home() {
         const resCat = await api.get("/categoria/categorias");
         if (resProd.data) {
           resProd.data.forEach((p) => {
-            let nomecategoria = resCat.data.find((x) => x._id === p.categoria).nome;
+            let nomecategoria = resCat.data.find(
+              (x) => x._id === p.categoria
+            ).nome;
             if (nomecategoria) p.nomecategoria = nomecategoria;
           });
         }
@@ -32,6 +35,7 @@ export default function Home() {
         console.log(fullCat);
         setCategorias(fullCat);
         setFilterCategorias(fullCat);
+        calculaprodutos();
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -41,6 +45,14 @@ export default function Home() {
     };
     fetchData();
   }, []);
+
+  const calculaprodutos = () => {
+    let total = 0;
+    filterCategorias.forEach((c) => {
+      total += c.produtos.length;
+    });
+    setTotalProdutos(total);
+  };
 
   const handleFilterSearchChange = (searchValue) => {
     if (searchValue) {
@@ -56,6 +68,7 @@ export default function Home() {
     } else {
       setFilterCategorias(categorias);
     }
+    calculaprodutos();
   };
 
   const handleFilterSelectChange = (selectValue) => {
@@ -150,11 +163,11 @@ export default function Home() {
       />
       {loading && <Loading />}
       {error && <p className="lead">{error}</p>}
-      {filterCategorias.length > 0 ? (
+      {filterCategorias.length > 0 &&
         filterCategorias.map((cat) => (
           <HorizontalList key={cat._id} lista={cat.produtos} nome={cat.nome} />
-        ))
-      ) : (
+        ))}
+      {totalprodutos <= 0 && (
         <div style={{ textAlign: "center" }}>
           <p className="lead">Não foram encontrados resultados</p>
         </div>

@@ -9,7 +9,7 @@ export const CarrinhoContext = createContext();
 
 export default function App() {
   const [cliente, setCliente] = useState({});
-  const [carrinho, setCarrinho] = useState({});
+  const [carrinho, setCarrinho] = useState([]);
 
   return (
     <ClienteContext.Provider value={[cliente, setCliente]}>

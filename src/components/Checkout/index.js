@@ -1,69 +1,112 @@
 import { useNavigate } from "react-router-dom";
-import jwt from 'jwt-decode'
-
-const pedidoItems = {
-    "total": 285.00,
-    "items": [
-        {
-            "nome": "Item 1",
-            "qtde": 2,
-            "preco": 150
-        },
-        {
-            "nome": "Item 2",
-            "qtde": 1,
-            "preco": 50
-        }
-    ]
-}
+import React, { useContext, useEffect, useState } from "react";
+import { CarrinhoContext, ClienteContext } from "../../App";
+import api from "../../services";
 
 export default function Checkout() {
+  const [carrinho, setCarrinho] = useContext(CarrinhoContext);
+  const [cliente, setCliente] = useContext(ClienteContext);
+  const [dados, setDados] = useState({});
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  useEffect(() => {
+    const load = async () => {
+      let total = carrinho.reduce(
+        (acc, o) => acc + parseFloat(o.quantidade * o.preco),
+        0
+      );
+      setDados({ ...dados, total: total });
+    };
+    load();
+  }, [carrinho]);
 
-    function handleSubmit(event) {
-        event.preventDefault();
+  function handleSubmit(event) {
+    event.preventDefault();
 
-        const storedToken = localStorage.getItem("token");
-
-        if (storedToken) {
-            try {
-                const data = jwt(storedToken)
-                console.log(data)
-                alert("Compra efetuada com sucesso para o cliente codigo: " + data.codigo + ".")
-            } catch (error) {
-                console.log(error)
-            }
-        } else {
-            alert('Usuario não autenticado! Por favor fazer o login!')
-            navigate("/login");
+    var pedido = {
+      preco: dados.total,
+      status: "pedido realizado",
+      cliente: cliente.codigo,
+      data: new Date().toISOString(),
+      produtos: [],
+    };
+    carrinho.forEach((p) => {
+      pedido.produtos.push({ produto: p.codigo, quantidade: p.quantidade });
+    });
+    console.log('pedido',pedido);
+    api.post("/pedido/criarPedido", pedido,
+    { headers: {
+        'Authorization': `Bearer ${cliente.token}`,
+        'Content-Type': 'application/json'
+    }})
+    .then((response) => {
+        if(response.data){
+            console.log(response.data);
+            alert(`Compra efetuada com sucesso para o cliente codigo: ${response.data.codigo}`);
+            setCarrinho([]);
+            navigate('/');
         }
-    }
+    });
+  }
 
-    return (
-        <div className="container text-center">
-            <form onSubmit={handleSubmit}>
-                <div className="row">
-                    {pedidoItems.items.map((item, i) => (
-                        <div className="col" key={i}>
-                            <div className="card">
-                                <div className="card-body">
-                                    <h5 className="card-title">{item.nome} </h5>
-                                    <p>Quantidade: {item.qtde}</p>
-                                    <p>Preço: {item.preco}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+  return (
+    <>
+      <div className="container text-center">
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            {carrinho.map((item, i) => (
+              <div className="col" key={i}>
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">{item.nome} </h5>
+                    <p>Quantidade: {item.quantidade}</p>
+                    <p>Preço: {item.preco}</p>
+                  </div>
                 </div>
-                <div className="row">
-                    <div className="col">
-                        <br />
-                        <p className="lead">Valor Total do Pedido: R$ {pedidoItems.total}</p>
-                    </div>
-                </div>
-                <button type="submit" className="btn btn-primary mb-5">Finalizar Pedido</button>
-            </form>
+              </div>
+            ))}
+          </div>
+          <div className="row">
+            <div className="col">
+              <br />
+              <p className="lead">Valor Total do Pedido: R$ {dados.total}</p>
+            </div>
+          </div>
+          <button type="submit" className="btn btn-primary mb-5">
+            Finalizar Pedido
+          </button>
+        </form>
+      </div>
+      <div className="container">
+        <div className="row mb-3">
+          <div className="col-6">
+            <div className="card" style={{ minHeight: 165 }}>
+              <div className="card-body">
+                <h5 className="card-title">Dados Entrega</h5>
+                <p className="card-text m-0">Cliente: {cliente.nomeCompleto}</p>
+                <p className="card-text m-0">Endereço: {cliente.endereco}</p>
+                <p className="card-text m-0">Telefone: {cliente.telefone}</p>
+                <p className="card-text m-0">CPF: {cliente.cpf}</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="card" style={{ minHeight: 165 }}>
+              <div className="card-body">
+                <h5 className="card-title">Dados Pagamento</h5>
+                <p className="card-text m-0">
+                  {" "}
+                  Nome Cartão: {cliente.dadosCartao.nomeCartao}
+                </p>
+                <p className="card-text m-0">
+                  Números Cartão: {cliente.dadosCartao.numeroCartao}
+                </p>
+                <p className="card-text m-0">CVV: {cliente.dadosCartao.cvc}</p>
+              </div>
+            </div>
+          </div>
         </div>
-    )
+      </div>
+    </>
+  );
 }
