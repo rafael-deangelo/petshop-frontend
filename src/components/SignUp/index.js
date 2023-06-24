@@ -218,8 +218,8 @@ function SignUp() {
                 <div className="col-6">
                   <input
                     className="form-control"
-                    placeholder="Senha"
-                    type="text"
+                    placeholder="Senha (Obrigatório)"
+                    type="password"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                   />
