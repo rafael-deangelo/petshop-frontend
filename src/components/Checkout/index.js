@@ -92,10 +92,10 @@ export default function Checkout() {
             <div className="card" style={{ minHeight: 165 }}>
               <div className="card-body">
                 <h5 className="card-title">Dados Entrega</h5>
-                <p className="card-text m-0">Cliente: {cliente.nomeCompleto}</p>
-                <p className="card-text m-0">Endereço: {cliente.endereco}</p>
-                <p className="card-text m-0">Telefone: {cliente.telefone}</p>
-                <p className="card-text m-0">CPF: {cliente.cpf}</p>
+                <p className="card-text m-0"><b>Cliente:</b> {cliente.nomeCompleto}</p>
+                <p className="card-text m-0"><b>Endereço:</b> {cliente.endereco}</p>
+                <p className="card-text m-0"><b>Telefone:</b> {cliente.telefone}</p>
+                <p className="card-text m-0"><b>CPF:</b> {cliente.cpf}</p>
               </div>
             </div>
           </div>
@@ -105,12 +105,12 @@ export default function Checkout() {
                 <h5 className="card-title">Dados Pagamento</h5>
                 <p className="card-text m-0">
                   {" "}
-                  Nome Cartão: {cliente.dadosCartao.nomeCartao}
+                  <b>Nome Cartão:</b> {cliente.dadosCartao.nomeCartao}
                 </p>
                 <p className="card-text m-0">
-                  Números Cartão: {cliente.dadosCartao.numeroCartao}
+                  <b>Números Cartão:</b> {cliente.dadosCartao.numeroCartao}
                 </p>
-                <p className="card-text m-0">CVV: {cliente.dadosCartao.cvc}</p>
+                <p className="card-text m-0"><b>CVV:</b> {cliente.dadosCartao.cvc}</p>
               </div>
             </div>
           </div>

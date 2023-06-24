@@ -18,6 +18,12 @@ export default function Detalhes() {
   const [error, setError] = useState("");
   const [quantidade, setQuantidade] = useState(1);
 
+  const imageStyle = {
+    width: "300px",
+    height: "400px", // Ajuste esse valor para a altura desejada
+    objectFit: "contain"
+  };
+
   useEffect(() => {
     const fetchProdutooById = async () => {
       try {
@@ -66,7 +72,8 @@ export default function Detalhes() {
                   alt="Card poster cap"
                   className="d-block mx-lg-auto"
                   loading="lazy"
-                  style={{ width: "350px", height: "100%" }}
+                  style={imageStyle}
+                  
                 />
               ) : (
                 <img
@@ -76,7 +83,7 @@ export default function Detalhes() {
                   }
                   alt="Card poster cap"
                   className="d-block mx-lg-auto"
-                  style={{ width: "350px", height: "100%" }}
+                  style={imageStyle}
                   loading="lazy"
                 />
               )}
@@ -105,7 +112,7 @@ export default function Detalhes() {
           </div>
           <div className="container mb-2">
             <div className="card">
-              <h5 className="card-header">Comentarios</h5>
+              <h5 className="card-header">Comentários</h5>
               <div className="card-body d-flex">
                 <div className="col-md-9">
                   <h5 className="card-title">Sobre o produto: </h5>
